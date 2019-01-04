@@ -12,7 +12,7 @@ php:
 before_script:
   - composer self-update
   - travis_retry composer install --prefer-source --no-interaction --dev
-  - cp .env.excample .env
+  - cp .env.travis .env
   - php artisan key:generate
 
 script: phpunit
@@ -26,6 +26,6 @@ matrix:
  notifications:
   on_success: never
   on_failure: always
-   
+
 script:
   - vendor/bin/phpunit
