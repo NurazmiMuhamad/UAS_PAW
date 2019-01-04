@@ -4,27 +4,28 @@ language: php
 
 # Versi php
 php:
-  - '7.2'
+  - 7.2
 
-# Brance yang digunakan
-branches:
-  only:
-    - master # QA/Staging server
-    - development # DevServer
 
-services:
-  - docker
 
 # install Environment di OS
-before_install:
-  - composer install
+before_script:
+  - composer self-update
+  - travis_retry composer install --prefer-source --no-interaction --dev
   - cp .env.excample .env
   - php artisan key:generate
 
-# Precompile
-before_script:
-  - 
+script: phpunit
 
-# Main Execution (Build)
+matrix:
+  allow_failures:
+    - php: 7.2
+    - php: hhvm
+  fast_finish: true
+
+ notifications:
+  on_success: never
+  on_failure: always
+   
 script:
   - vendor/bin/phpunit
